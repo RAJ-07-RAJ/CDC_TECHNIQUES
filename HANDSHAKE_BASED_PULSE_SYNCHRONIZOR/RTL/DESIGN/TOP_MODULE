@@ -1,1 +1,49 @@
 
+module handshake_cdc (
+
+    input  wire clkA,
+    input  wire clkB,
+    input  wire reset,
+    input  wire event_src,
+
+    output wire pulse_dst,
+    output wire busy
+);
+
+wire req;
+wire req_sync;
+wire ack;
+wire ack_sync;
+
+cdc_source SRC (
+    .clkA(clkA),
+    .reset(reset),
+    .event_src(event_src),
+    .ack_sync(ack_sync),
+    .req(req),
+    .busy(busy)
+);
+
+sync_2ff REQ_SYNC (
+    .clk(clkB),
+    .reset(reset),
+    .d(req),
+    .q(req_sync)
+);
+
+cdc_dest DST (
+    .clkB(clkB),
+    .reset(reset),
+    .req_sync(req_sync),
+    .ack(ack),
+    .pulse_dst(pulse_dst)
+);
+
+sync_2ff ACK_SYNC (
+    .clk(clkA),
+    .reset(reset),
+    .d(ack),
+    .q(ack_sync)
+);
+
+endmodule
