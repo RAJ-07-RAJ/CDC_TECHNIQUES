@@ -1,1 +1,28 @@
 
+module cdc_source (
+    input  wire clkA,
+    input  wire reset,
+    input  wire event_src,
+    input  wire ack_sync,
+    output reg  req,
+    output wire busy
+);
+
+assign busy = req | ack_sync;
+
+always @(posedge clkA or posedge reset) begin
+    if(reset)
+        req <= 0;
+
+    else begin
+        // event arrives when not busy
+        if(event_src && !busy)
+            req <= 1;
+
+        // clear when ack received
+        else if(ack_sync)
+            req <= 0;
+    end
+end
+
+endmodule
