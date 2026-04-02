@@ -1,1 +1,28 @@
 
+module cdc_dest (
+    input  wire clkB,
+    input  wire reset,
+    input  wire req_sync,
+    output reg  ack,
+    output wire pulse_dst
+);
+
+reg req_sync_d;
+
+always @(posedge clkB or posedge reset) begin
+    if(reset)
+        req_sync_d <= 0;
+    else
+        req_sync_d <= req_sync;
+end
+
+assign pulse_dst = req_sync & ~req_sync_d;
+
+always @(posedge clkB or posedge reset) begin
+    if(reset)
+        ack <= 0;
+    else
+        ack <= req_sync;
+end
+
+endmodule
