@@ -1,0 +1,66 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 04/01/2026 01:03:36 PM
+// Design Name: 
+// Module Name: tb_handshake
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module tb_handshake;
+
+reg clkA;
+reg clkB;
+reg reset;
+reg event_src;
+
+wire pulse_dst;
+wire busy;
+
+handshake_cdc DUT (
+    .clkA(clkA),
+    .clkB(clkB),
+    .reset(reset),
+    .event_src(event_src),
+    .pulse_dst(pulse_dst),
+    .busy(busy)
+);
+
+always #5  clkA = ~clkA;   // 100 MHz
+always #12 clkB = ~clkB;   // different clock
+
+initial begin
+
+clkA = 0;
+clkB = 0;
+reset = 1;
+event_src = 0;
+
+#20 reset = 0;
+
+// event 1
+#17 event_src = 1;
+#10 event_src = 0;
+
+// event 2
+#100 event_src = 1;
+#10 event_src = 0;
+
+
+
+end
+
+endmodule
