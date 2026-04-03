@@ -1,0 +1,19 @@
+module sync_2ff (
+    input  wire clk,
+    input  wire rstn,
+    input  wire din,
+    output reg  dout
+);
+
+reg sync_ff;
+
+always @(posedge clk or negedge rstn) begin
+    if(!rstn) begin
+        sync_ff <= 0;
+        dout    <= 0;
+    end
+    else begin
+        sync_ff <= din;
+        dout    <= sync_ff;
+    end
+end
