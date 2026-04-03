@@ -1,0 +1,25 @@
+module toggle_synchronizer (
+    input  wire clkA,
+    input  wire clkB,
+    input  wire rst,
+    input  wire pulse_in,
+    output wire pulse_out
+);
+
+wire toggle_sig;
+
+toggle_src u_src (
+    .clkA(clkA),
+    .rst(rst),
+    .pulse_in(pulse_in),
+    .toggle(toggle_sig)
+);
+
+toggle_dest u_dest (
+    .clkB(clkB),
+    .rst(rst),
+    .toggle_async(toggle_sig),
+    .pulse_out(pulse_out)
+);
+
+endmodule
