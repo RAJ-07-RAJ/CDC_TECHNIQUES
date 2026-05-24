@@ -1,6 +1,31 @@
-# CDC Methods — Clock Domain Crossing Synchronization Techniques
+# CDC Methods — Clock Domain Crossing Techniques
 
-> A structured series documenting CDC synchronization techniques with real-world analogies, synthesizable SystemVerilog, SVA assertions, and SDC constraints — written as part of my RTL design learning journey.
+| | |
+|---|---|
+| **Type** | CDC reference · RTL primitives |
+| **Languages** | Verilog · SystemVerilog |
+| **Topics** | 2FF/3FF sync · pulse · toggle · handshake · mux |
+| **Tools** | Vivado · ModelSim · GTKWave · Formal (SVA) |
+| **Companion IP** | [FIFO_ASYNC](https://github.com/RAJ-07-RAJ/FIFO_ASYNC) |
+
+> Structured CDC techniques with real-world analogies, synthesizable RTL, testbenches, and formal-oriented notes — part of an RTL/DV learning portfolio.
+
+---
+
+## Repository layout
+
+```
+CDC_TECHNIQUES/
+├── SYNC_2FF/              # 2-flop synchronizer
+├── SYNC_3_FF/             # 3-flop synchronizer
+├── HANDSHAKE_SYNC/        # Req/ack handshake CDC
+├── HANDSHAKE_BASED_PULSE_SYNCHRONIZOR/
+├── Toggle Synchronizer/
+├── MUX_SYNCRONIZOR/
+└── index.html             # GitHub Pages summary (optional)
+```
+
+Each technique folder contains `RTL/` and `TESTBENCH/` (or `TEST_BENCH/`) with matching module names.
 
 ---
 
@@ -96,7 +121,7 @@ Used to safely switch between multiple clock domains or data sources. The select
 The standard solution for high-throughput multi-bit data transfer between clock domains. Read and write pointers are Gray-coded before crossing to ensure only one bit changes per cycle, eliminating multi-bit metastability. Full/empty flags are derived from synchronized pointer comparisons.
 
 - **Use when:** Streaming data, AXI interfaces, high-bandwidth CDC paths
-- **Repo:** [https://github.com/RAJ-07-RAJ/FIFO_ASYNC)
+- **Repo:** [FIFO_ASYNC](https://github.com/RAJ-07-RAJ/FIFO_ASYNC)
 
 ---
 
